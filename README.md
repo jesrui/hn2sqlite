@@ -26,15 +26,25 @@ Comments](https://news.ycombinator.com/item?id=7835605).
         ./hn2sqlite hn-all-stories+comments.sqlite < HNCommentsAll.json
 
 1. Create the following database indexes. These indexes work ok for me with
-   queries used to retrieve stories by date and the comments of a specific
-   story. Generating the indexes takes a while too.
+   queries used to retrieve stories by date, comments of a specific story and
+   stories or comments submitted by an specific author. Generating the indexes
+   takes a while too.
 
-        $ sqlite3 hn-all-stories+comments.sqlite \
-            "create index if not exists created_at_i_idx on stories (created_at_i)"
-        $ sqlite3 hn-all-stories+comments.sqlite \
-            "create index if not exists story_id_idx on comments (story_id)"
+        $ sqlite3 hn-all-stories+comments.sqlite
+        SQLite version 3.8.5 2014-06-04 14:06:34
+        Enter ".help" for usage hints.
+        sqlite> .timer on
+        sqlite> create index if not exists created_at_i_idx on stories (created_at_i);
+        Run Time: real 50.425 user 4.280000 sys 4.333333
+        sqlite> create index if not exists story_id_idx on comments (story_id);
+        Run Time: real 212.497 user 19.619998 sys 18.913332
+        sqlite> create index if not exists stories_author_idx on stories (author);
+        Run Time: real 53.204 user 6.210000 sys 4.396666
+        sqlite> create index if not exists comments_author_idx on comments (author);
+        Run Time: real 353.158 user 30.969997 sys 30.193330
+        sqlite> .quit
 
-The resulting database weights 3.7 GBytes. SQLite shows no problem dealing with
+The resulting database weights 3.8 GBytes. SQLite shows no problem dealing with
 that.
 
 ## Hacker News Digest
