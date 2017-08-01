@@ -3,7 +3,7 @@ SQLITE3LIB = $(shell pkg-config --libs sqlite3)
 
 CXXFLAGS = ${SQLITE3INC} -std=c++11 -DNDEBUG -I. -Wall -Wno-unused-local-typedefs -O2 -msse2
 #CXXFLAGS = ${SQLITE3INC} -std=c++11 -DNDEBUG -I. -Wall -Wno-unused-local-typedefs -O0 -g -msse2
-LDFLAGS = ${SQLITE3LIB}
+LDLIBS = ${SQLITE3LIB}
 LDFLAGS += -s
 
 hn2sqlite: hn2sqlite.cpp
